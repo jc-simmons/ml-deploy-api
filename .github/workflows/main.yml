@@ -27,7 +27,7 @@ jobs:
           images: jcsimmons/ml-app
   
       - name: Build and Push
-        uses: docker/build-push-actions@v5
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
