@@ -31,4 +31,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ml-app:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/ml-app:latest
