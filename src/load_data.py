@@ -1,8 +1,10 @@
 from pathlib import Path
+import pandas as pd
 
 
-def load_data(file_path: Path) -> pd.DataFrame:
+def data_loader(file_path: Path) -> pd.DataFrame:
 
-    data = pd.read_csv('diabetes.csv')
+    data = pd.read_csv(file_path)
 
     return data
+

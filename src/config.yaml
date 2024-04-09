@@ -6,11 +6,17 @@ files:
   output_file: outlog.dat
 params:
   models:
-    estimator: DecisionTreeClassifier
+  - estimator: DecisionTreeClassifier
     module: sklearn.tree
     max_depth: 
       - 5 
       - 10
+  - estimator: RandomForestClassifier
+    module: sklearn.ensemble
+    max_depth:
+      - 6 
+      - 10
+
 
 
 
