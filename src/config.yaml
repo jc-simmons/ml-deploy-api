@@ -1,0 +1,17 @@
+paths:
+  data: "../data"
+  log: "../logs"
+files:
+  input_file: diabetes.csv
+  output_file: outlog.dat
+params:
+  models:
+    estimator: DecisionTreeClassifier
+    module: sklearn.tree
+    max_depth: 
+      - 5 
+      - 10
+
+
+
+  
