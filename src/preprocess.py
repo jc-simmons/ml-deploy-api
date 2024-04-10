@@ -5,8 +5,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 def create_preprocessor():
 
-
-    prepare_pipe = Pipeline([
+    prep_pipe = Pipeline([
         ('dropna', Cleaner()),
         ('selector', DropFeatureSelector('PatientID'))
         ])
@@ -18,13 +17,13 @@ def create_preprocessor():
         ('minmax_scaler',MinMaxScaler())
         ])
 
+    par_pipe =  ColumnTransformer([
+            ('num', numeric_transformer, numeric_features)], remainder='passthrough')
+
 
     preprocessor = Pipeline([
-        ('prep', prepare_pipe),
-
-        ('column_transform', 
-        ColumnTransformer([
-            ('num', numeric_transformer, numeric_features)], remainder='passthrough'))
+        ('prep', prep_pipe),
+        ('main', par_pipe)
         ])
 
     return preprocessor

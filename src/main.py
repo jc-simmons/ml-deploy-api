@@ -6,6 +6,7 @@ import pathlib
 
 
 from load_data import data_loader
+from preprocess import create_preprocessor
 
 with open('config.yaml','r') as conf:
     try:
