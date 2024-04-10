@@ -17,13 +17,13 @@ def create_preprocessor():
         ('minmax_scaler',MinMaxScaler())
         ])
 
-    par_pipe =  ColumnTransformer([
+    run_pipe =  ColumnTransformer([
             ('num', numeric_transformer, numeric_features)], remainder='passthrough')
 
 
     preprocessor = Pipeline([
         ('prep', prep_pipe),
-        ('main', par_pipe)
+        ('main', run_pipe)
         ])
 
     return preprocessor
@@ -33,7 +33,7 @@ def create_preprocessor():
 class Cleaner(BaseEstimator, TransformerMixin):
     
     def __init__(self): 
-        return self
+        return 
 
     def fit(self, X, y=None):
         return self 
