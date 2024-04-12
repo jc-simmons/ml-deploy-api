@@ -2,7 +2,7 @@ import importlib
 import pandas as pd
 
 
-def custom_cvgrid(models: list) -> list:
+def cv_grid_custom(models: list) -> list:
 
     hyper_list = []
 

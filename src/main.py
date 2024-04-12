@@ -3,9 +3,8 @@ import importlib
 import numpy as np
 import pandas as pd
 import pathlib
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split, GridSearchCV
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.metrics import roc_auc_score
@@ -13,12 +12,15 @@ from sklearn.metrics import roc_curve
 
 from load_data import data_loader
 from preprocess import create_preprocessor
+from cv_helper import cv_grid_custom, cv_result_trimmer
+
 
 with open('config.yaml','r') as conf:
     try:
         cfg = yaml.safe_load(conf)
     except yaml.YAMLError as exc:
         print(exc)
+
 
 # Data configuration
 data_dir = cfg['paths']['data']
@@ -27,24 +29,31 @@ data_path = pathlib.Path(f"{data_dir}/{data_file}")
 
 data = data_loader(data_path)
 
-
-y = data[['Diabetic']]
+y = data[['Diabetic']].values.ravel()
 X = data.drop('Diabetic', axis=1)
+
+
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=42)
+
 
 preprocessor = create_preprocessor()
 
 
 pipe = Pipeline([
     ('preprocess', preprocessor),
-    ('estimator', LogisticRegression())
+    ('estimator', None)
 ])
 
-grid_params = [
-    {
-    'estimator' : [RandomForestClassifier()],
-    'estimator__max_depth' : [10,15]
-    }
-]
+params = cv_grid_custom(cfg['models'])
+
+
+#grid_params = [
+#    {
+#    'estimator' : [RandomForestClassifier()],
+#    'estimator__max_depth' : [10,15]
+#    }
+#]
+
 
 scoring = {
         'Accuracy':'accuracy',
@@ -54,12 +63,12 @@ scoring = {
         }
 
 
-grid = GridSearchCV(pipe, grid_params, scoring = scoring, refit='AUC') 
+grid = GridSearchCV(pipe, params, scoring = scoring, refit='AUC') 
 
-grid.fit(X,y)
+grid.fit(X_train, y_train)
 
 
-results = pd.DataFrame(grid.cv_results_)
+results = cv_result_trimmer(pd.DataFrame(grid.cv_results_))
 
 
 
