@@ -32,3 +32,15 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/ml-app:latest
+
+  render:
+    needs: docker
+    name: Redeploy Render API
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: deploy
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$deploy_url"
