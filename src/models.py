@@ -4,30 +4,17 @@ import pandas as pd
 from scoring import scorer
 import importlib
 
-
-def test():
-
-    return 'test'
-
-
 class Model:
-
     def __init__(self, preprocessor, estimators):
         self.preprocessor = preprocessor
         self.estimators = estimators
 
-
     def gen(self):
-
         est = CustomCVGrid(self.preprocessor,self.estimators)
-
         return est 
-
-
+    
 
 class CustomCVGrid:
-
-
     def __init__(self, preprocessor, models):
         self.preprocessor = preprocessor
         self.models = models
@@ -38,7 +25,6 @@ class CustomCVGrid:
         ])
 
         params = self.cv_grid_custom()
-
         self.base = GridSearchCV(pipe, params, scoring = scorer(), refit='AUC' )
 
    
