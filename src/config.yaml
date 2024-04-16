@@ -1,10 +1,9 @@
-paths:
-  data: "../data"
-  log: "../logs"
+in: "../data/diabetes.csv"
 
-files:
-  input_file: diabetes.csv
-  output_file: outlog.dat
+out:
+  "../log"
+
+target: Diabetic
 
 models:
 - estimator: DecisionTreeClassifier
@@ -19,6 +18,7 @@ models:
     max_depth:
       - 6 
       - 10
+      - 11
 
 
 
