@@ -3,16 +3,11 @@ import importlib
 import numpy as np
 import pandas as pd
 import pathlib
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import train_test_split, GridSearchCV
-
-from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
-from sklearn.metrics import roc_auc_score
-from sklearn.metrics import roc_curve
+from sklearn.model_selection import train_test_split
 
 from load_data import data_loader
 from preprocess import create_preprocessor
-from cv_helper import cv_grid_custom, cv_result_trimmer
+from models import Model
 
 
 with open('config.yaml','r') as conf:
@@ -38,52 +33,10 @@ X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random
 
 preprocessor = create_preprocessor()
 
+ml = Model(preprocessor, cfg['models']).gen()
 
-pipe = Pipeline([
-    ('preprocess', preprocessor),
-    ('estimator', None)
-])
+ml.fit(X_train, y_train)
 
-params = cv_grid_custom(cfg['models'])
+pd.set_option('display.max_colwidth', 200)
+print(ml.chop_results_)
 
-
-#grid_params = [
-#    {
-#    'estimator' : [RandomForestClassifier()],
-#    'estimator__max_depth' : [10,15]
-#    }
-#]
-
-
-scoring = {
-        'Accuracy':'accuracy',
-        'Precision':'precision',
-        'Recall':'recall',
-        'AUC':'roc_auc'
-        }
-
-
-grid = GridSearchCV(pipe, params, scoring = scoring, refit='AUC') 
-
-grid.fit(X_train, y_train)
-
-
-results = cv_result_trimmer(pd.DataFrame(grid.cv_results_))
-
-
-
-
-#print(params)
-#for key, val in params.items():
-#    module = importlib.import_module(val,key)
-#    lr = getattr(module, key)
-#    lr = model()
-
-#from sklearn.linear_model import LinearRegression
-#print(lr)
-#test = LinearRegression()
-
-#X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
-#y = np.dot(X, np.array([1, 2])) + 3
-
-#reg = lr.fit(X,y)
