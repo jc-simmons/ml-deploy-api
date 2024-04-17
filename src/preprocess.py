@@ -3,18 +3,17 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.base import BaseEstimator, TransformerMixin
 
-def create_preprocessor():
+def create_preprocessor(features):
 
     prep_pipe = Pipeline([
         ('dropna', Cleaner()),
-        ('selector', DropFeatureSelector('PatientID'))
+        ('selector', DropFeatureSelector(features['drop']))
         ])
 
-    numeric_features = ['Pregnancies','PlasmaGlucose','DiastolicBloodPressure',
-    'TricepsThickness','SerumInsulin','BMI','DiabetesPedigree']
+    numeric_features = features['numeric']
 
     numeric_transformer = Pipeline([
-        ('minmax_scaler',MinMaxScaler())
+        ('minmax_scaler', MinMaxScaler())
         ])
 
     run_pipe =  ColumnTransformer([

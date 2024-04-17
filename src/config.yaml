@@ -5,6 +5,8 @@ out:
 
 target: Diabetic
 
+save_model: True
+
 models:
 - estimator: DecisionTreeClassifier
   module: sklearn.tree
@@ -16,11 +18,18 @@ models:
   module: sklearn.ensemble
   hyperparams:
     max_depth:
-      - 6 
       - 10
-      - 11
 
-
-
+target: Diabetic
+features:
+  numeric:
+    - Pregnancies
+    - PlasmaGlucose
+    - DiastolicBloodPressure
+    - TricepsThickness
+    - SerumInsulin
+    - BMI
+    - DiabetesPedigree
+  drop: PatientID
 
   

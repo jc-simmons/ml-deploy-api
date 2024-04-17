@@ -1,14 +1,12 @@
 import yaml
-import importlib
-import numpy as np
-import pandas as pd
 import pathlib
 from sklearn.model_selection import train_test_split
 
 
 from load_data import data_loader
 from preprocess import create_preprocessor
-from models import Model
+from models import model
+from postprocess import PostProcessor
 
 
 with open('config.yaml','r') as conf:
@@ -18,12 +16,13 @@ with open('config.yaml','r') as conf:
         print(exc)
 
 
-# Data configuration
+# Configuration
 DATA_PATH = pathlib.Path(f"{config['in']}")
-OUT_PATH = pathlib.Path(f"{config['out']}")
-
-MODEL_PARAMS = config['models']
+OUTPUT_DIR = config['out']
+SAVE_MODEL = config['save_model']
 TARGET_VAR = config['target']
+FEATURE_VAR = config['features']
+MODEL_PARAMS = config['models']
 
 data = data_loader(DATA_PATH)
 
@@ -32,14 +31,15 @@ X = data.drop(TARGET_VAR, axis=1)
 
 X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=42)
 
-preprocessor = create_preprocessor()
+preprocessor = create_preprocessor(FEATURE_VAR)
 
-ml = Model(preprocessor, MODEL_PARAMS).gen()
+ml = model(preprocessor, MODEL_PARAMS)
 
 ml.fit(X_train, y_train)
 
+PostProcessor.save_evaluate(OUTPUT_DIR, ml, X_test, y_test)
 
+if SAVE_MODEL:
+    PostProcessor.save_model(OUTPUT_DIR, ml)
 
-pd.set_option('display.max_colwidth', 200)
-print(ml.chop_results_)
 
