@@ -32,8 +32,8 @@ class PostProcessor:
 
 
         y_pred = estimator.predict(X_test).astype(int)
-        c_matrix = confusion_matrix(y_test, y_pred)
-        sn.heatmap(c_matrix, annot=True, cmap="Blues")
+        conf_matrix = confusion_matrix(y_test, y_pred)
+        sn.heatmap(conf_matrix, annot=True, cmap="Blues")
         plt.savefig(pathlib.Path(out_dir + '/confusion_matrix.png', dpi=1200, bbox_inches = 'tight'))
 
         return
