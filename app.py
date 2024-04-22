@@ -7,7 +7,7 @@ import pickle
 
 app = Flask(__name__)
 
-model = pickle.load(open('clfmodel.pkl','rb'))
+model = pickle.load(open('log/clfmodel.pkl','rb'))
 
 
 @app.route('/', methods=['POST', 'GET'])
