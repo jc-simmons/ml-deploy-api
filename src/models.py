@@ -82,9 +82,18 @@ class CustomCVGrid:
 
         return results
 
-
+    # If custom attribute/method does not exist, check parent (GridSearchCV)
     def __getattr__(self, name):
         return getattr(self.base, name)
+    
+
+    # Overriding to avoid recusion on unpickling since unpickling does not run __init__ 
+    def __getstate__(self):
+        return vars(self)
+
+    def __setstate__(self, state):
+        vars(self).update(state)
+
 
 
 def module_loader(estimator: dict):

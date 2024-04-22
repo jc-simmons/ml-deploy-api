@@ -13,12 +13,12 @@ models:
   hyperparams: 
     max_depth: 
       - 5 
-      - 10
+
 - estimator: RandomForestClassifier
   module: sklearn.ensemble
   hyperparams:
     max_depth:
-      - 10
+      - 5
 
 target: Diabetic
 features:

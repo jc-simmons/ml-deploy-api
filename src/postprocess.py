@@ -45,6 +45,13 @@ class PostProcessor:
         with open(pathlib.Path(out_dir + '/clfmodel.pkl'), 'wb') as f:
             pickle.dump(estimator, f)
 
-        return
+
+    @staticmethod
+    def load_model(model_path):
+
+        with open(model_path, 'rb') as f:
+            model = pickle.load(f)
+
+        return model 
     
     
