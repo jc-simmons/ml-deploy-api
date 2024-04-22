@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, confusion_matrix
-from scoring import scorer
+from src.scoring import scorer
 import json
 import pathlib
 import seaborn as sn

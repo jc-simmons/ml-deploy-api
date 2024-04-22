@@ -1,7 +1,7 @@
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 import pandas as pd
-from scoring import scorer
+from src.scoring import scorer
 import importlib
 
 def model(preprocessor, estimators):

@@ -11,7 +11,6 @@ def scorer(estimator, X, y):
     rec = recall_score(y, y_pred)
     auc = roc_auc_score(y,estimator.predict_proba(X)[:,1])
 
-    print('acc: ', acc)
     scores['acc'] = acc
     scores['prec'] = prec
     scores['rec'] = rec
