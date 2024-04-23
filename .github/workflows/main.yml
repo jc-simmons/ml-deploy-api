@@ -67,7 +67,7 @@ jobs:
         id: call
         run: |
           response=$(curl -H "Content-Type: application/json" \
-          --data @test.json -s -w "%{http_code}" \
+          --data @test.json -s -w "\n%{http_code}" \
           https://ml-api-imwi.onrender.com) 
           status_code="$(echo "$response" | tail -n 1)"
           echo $status_code
@@ -77,5 +77,8 @@ jobs:
         if: ${{ steps.call.outputs.status }}  != 200
         run: |
           echo "Failed with code ${{ steps.call.outputs.status_code}} "
+          exit 1
 
+      - name: if-success
+        run: echo "success!"
     
