@@ -52,6 +52,7 @@ jobs:
 
 
   api-check:
+    needs: render
     name: Call API
     runs-on: ubuntu-latest
     steps:
