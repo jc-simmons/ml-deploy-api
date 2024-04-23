@@ -14,7 +14,8 @@ model = pickle.load(open('log/clfmodel.pkl','rb'))
 def handle_request():
   
     payload=request.get_json()
-    data = np.array(list(payload.values())).reshape(1,-1)
+    #data = np.array(list(payload.values())).reshape(1,-1)
+    data = pd.DataFrame.from_dict(payload)
     output=model.predict(data)
 
     response =  {'prediction': output[0].item()}
