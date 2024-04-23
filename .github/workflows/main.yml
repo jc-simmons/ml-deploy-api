@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: wait
-        run: sleep 180s
+        run: sleep 45s
         
       - name: call-api
         id: call
@@ -74,7 +74,7 @@ jobs:
           echo "status_code=$status_code" >> $GITHUB_OUTPUT
 
       - name: check
-        if: ${{ steps.call.outputs.status_code }}  != 200
+        if: ${{ steps.call.outputs.status_code != 200 }}
         run: |
           echo "Failed with code ${{ steps.call.outputs.status_code}} "
           exit 1
