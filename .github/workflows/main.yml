@@ -48,3 +48,33 @@ jobs:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           curl "$deploy_url"
+
+
+
+  api-check:
+    name: Call API
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: wait
+        run: sleep 180s
+        
+      - name: call-api
+        id: call
+        run: |
+          response=$(curl -H "Content-Type: application/json" \
+          --data @test.json -s -w "%{http_code}" \
+          https://ml-api-imwi.onrender.com) 
+          status_code="$(echo "$response" | tail -n 1)"
+          echo $status_code
+          echo "status_code=$status_code" >> $GITHUB_OUTPUT
+
+      - name: check
+        if: ${{ steps.call.outputs.status }}  != 200
+        run: |
+          echo "Failed with code ${{ steps.call.outputs.status_code}} "
+
+    
