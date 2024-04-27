@@ -7,9 +7,9 @@ When a change is detected in the model .pkl file, a Github actions workflow is i
 - calls a Render webhook that redeploys a webservice using the Docker image
 - sends a curl request to the prediction API with a sample entry (test.json) in order to check a successful deployment (HTTP status code 200)  
   
-  
-  
-
+<br>  
+<br>
+<br>
 
 A custom cross-valiated grid search method is implemented using a wrapper around the sklearn GridSearchCV module in order to enable easier searching across different models as well as their hyperparameters. 
 Combinations of machine learning models and their hyperparameters, in addition to other configuration variables, are contained in config.yaml to allow for more convenient model testing. The sklearn modules are imported 
